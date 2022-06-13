@@ -4,18 +4,20 @@ import 'package:learning_app/shared/themes/app_texts.dart';
 import '../themes/app_colors.dart';
 
 class MentorsSmallCard extends StatelessWidget {
-  const MentorsSmallCard({ Key? key }) : super(key: key);
+  final double radius;
+
+  const MentorsSmallCard({ Key? key, required this.radius}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 20),
+      padding: const EdgeInsets.only(left: 1, right: 20),
       child: Column(
         children: [
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                   color: AppColors.shadow,
                   spreadRadius: 2,
@@ -25,11 +27,11 @@ class MentorsSmallCard extends StatelessWidget {
               ]
             ),
             child: CircleAvatar(
-              radius: 20,
-              backgroundImage: NetworkImage("https://this-person-does-not-exist.com/img/avatar-f47628fced4c11da5250055ecb3f2767.jpg"),
+              radius: radius,
+              backgroundImage: NetworkImage("https://avatars.githubusercontent.com/u/57482542?v=4"),
             ),
           ),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           Text(
             "Fulano",
             style: AppTexts.small,

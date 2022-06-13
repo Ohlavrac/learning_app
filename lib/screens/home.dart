@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:learning_app/shared/themes/app_colors.dart';
 import 'package:learning_app/shared/themes/app_texts.dart';
+import 'package:learning_app/shared/widgets/appbar_button.dart';
 import 'package:learning_app/shared/widgets/course_card.dart';
 import 'package:learning_app/shared/widgets/custom_row.dart';
 import 'package:learning_app/shared/widgets/mentors_small_card.dart';
@@ -29,40 +30,22 @@ class _HomeState extends State<Home> {
         title: Text("Hi Victor", style: AppTexts.mediun,),
         actions: [  
           Padding(
-            padding: const EdgeInsets.only(right: 15),
-            child: Container(
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.shadow,
-                    spreadRadius: 2,
-                    blurRadius: 1,
-                    offset: Offset(4, 3)
-                  ),
-                ],
-              ),
-              child: CircleAvatar(
-                backgroundColor: AppColors.primary,
-                child: IconButton(
-                  icon: Icon(Icons.notifications_active_outlined, color: AppColors.shadow,),
-                  onPressed: () {
+            padding: EdgeInsets.only(right: 15),
+            child: AppbarButton(icon: Icons.notifications_active_outlined, onPressed: () {
 
-                  },
-                ),
-              ),
-            ),
-          )
+            },),
+          ),
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         child: SingleChildScrollView(
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const SizedBox(height: 10,),
                 Align(
                   alignment: Alignment.topLeft,
                   child: Text(
@@ -71,41 +54,49 @@ class _HomeState extends State<Home> {
                     textAlign: TextAlign.left,
                   ),
                 ),
-                SearchInput(),
-                CustomRow(title: "Popular Mentors",),
-                Container(
+                const Padding(
+                  padding: EdgeInsets.only(top: 25, bottom: 25, right: 6),
+                  child: SearchInput(),
+                ),
+                const CustomRow(title: "Popular Mentors",),
+                SizedBox(
                   width: double.infinity,
                   height: 80,
-                  child: ListView(
+                  child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    children: [
-                      MentorsSmallCard(),
-                      MentorsSmallCard(),
-                      MentorsSmallCard(),
-                      MentorsSmallCard(),
-                      MentorsSmallCard(),
-                      MentorsSmallCard(),
-                      MentorsSmallCard(),
-                      MentorsSmallCard(),
-                      MentorsSmallCard(),
-                      MentorsSmallCard(),
-                    ],
+                    itemCount: 10,
+                    itemBuilder: (context, index) {
+                      return MentorsSmallCard(radius: 20);
+                    },
                   ),
                 ),
-                CustomRow(title: "Popular Courses",),
-                Container(
-                  width: double.infinity,
+                const SizedBox(height: 20,),
+                const CustomRow(title: "Popular Courses",),
+                SizedBox(
+                  height: 215,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 10,
+                    itemBuilder: (context, index) {
+                      return CourseCard(onTap: () {
+                        Navigator.popAndPushNamed(context, "/course_details");
+                      },);
+                    },
+                  ),
+                ),
+                const SizedBox(height: 20,),
+                const CustomRow(title: "Student's Favorite",),
+                SizedBox(
                   height: 210,
-                  child: ListView(
+                  child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    children: [
-                      CourseCard(),
-                      CourseCard(),
-                      CourseCard(),
-                      CourseCard(),
-                    ],
+                    itemCount: 10,
+                    itemBuilder: (context, index) {
+                      return CourseCard(onTap: () {},);
+                    },
                   ),
                 ),
+                const SizedBox(height: 20,),
               ],
             ),
           ),

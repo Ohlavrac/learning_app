@@ -8,12 +8,13 @@ class SearchInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 340,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
             color: AppColors.shadow,
-            offset: Offset(10, 10),
+            offset: Offset(9, 9),
             blurRadius: 1,
             spreadRadius: 1,
           ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:learning_app/shared/themes/app_colors.dart';
+import 'package:learning_app/screens/course_details.dart';
 
 import 'screens/home.dart';
 
@@ -13,7 +13,8 @@ class MyApp extends StatelessWidget {
       title: "Learning App",
       initialRoute: "/home",
       routes: {
-        "/home": (context) => Home(),
+        "/home": (context) => const Home(),
+        "/course_details": (context) => const CourseDetails(),
       },
     );
   }

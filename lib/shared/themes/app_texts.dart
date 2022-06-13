@@ -21,7 +21,7 @@ class AppTexts {
   );
 
   static final small = GoogleFonts.robotoCondensed(
-    fontSize: 18,
+    fontSize: 16,
     color: AppColors.shadow,
   );
 

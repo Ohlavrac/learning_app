@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:learning_app/screens/courses.dart';
+import 'package:learning_app/screens/my_courses.dart';
 import 'package:learning_app/shared/themes/app_colors.dart';
 import 'package:learning_app/shared/themes/app_texts.dart';
 import 'package:learning_app/shared/widgets/appbar_button.dart';
 import 'package:learning_app/shared/widgets/course_card.dart';
 import 'package:learning_app/shared/widgets/custom_row.dart';
+import 'package:learning_app/shared/widgets/home_appbar.dart';
 import 'package:learning_app/shared/widgets/mentors_small_card.dart';
 import 'package:learning_app/shared/widgets/search_input.dart';
+
+import '../shared/widgets/bookmarks_appbar.dart';
 
 class Home extends StatefulWidget {
   const Home({ Key? key }) : super(key: key);
@@ -15,92 +20,69 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  int _selectedIndex = 0;
+
+  void _onItemSelected(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  static const List _pages = [
+    Courses(),
+    Text("OPS NADA AQUI"),
+    MyCourses(),
+    Text("OPS NADA AQUI"),
+  ];
+
+  static const List _appbars = [
+    HomeAppBar(),
+    HomeAppBar(),
+    BookMarksAppBar(),
+    HomeAppBar(),
+  ];
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        backgroundColor: AppColors.background,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(50),
+        child: _appbars.elementAt(_selectedIndex),
+      ),
+      body: _pages.elementAt(_selectedIndex),
+      bottomNavigationBar: BottomNavigationBar(
         elevation: 0,
-        leading: const CircleAvatar(
-          radius: 50,
-          backgroundImage: NetworkImage("https://avatars.githubusercontent.com/u/57482542?v=4"),
-        ),
-        leadingWidth: 75,
-        title: Text("Hi Victor", style: AppTexts.mediun,),
-        actions: [  
-          Padding(
-            padding: EdgeInsets.only(right: 15),
-            child: AppbarButton(icon: Icons.notifications_active_outlined, onPressed: () {
-
-            },),
+        iconSize: 24,
+        selectedFontSize: 16,
+        unselectedFontSize: 16,
+        type: BottomNavigationBarType.fixed,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        selectedItemColor: AppColors.button,
+        unselectedItemColor: Colors.grey,
+        backgroundColor: AppColors.background,
+        onTap: _onItemSelected,
+        currentIndex: _selectedIndex,
+        items: const <BottomNavigationBarItem> [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined,),
+            label: "home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.explore_outlined,),
+            label: "Explore",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bookmarks_outlined,),
+            label: "Bookmarks",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline,),
+            label: "Profile",
           ),
         ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: 10,),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "What course are you\nlooking for?",
-                    style: AppTexts.title,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 25, bottom: 25, right: 6),
-                  child: SearchInput(),
-                ),
-                const CustomRow(title: "Popular Mentors",),
-                SizedBox(
-                  width: double.infinity,
-                  height: 80,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return MentorsSmallCard(radius: 20);
-                    },
-                  ),
-                ),
-                const SizedBox(height: 20,),
-                const CustomRow(title: "Popular Courses",),
-                SizedBox(
-                  height: 215,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return CourseCard(onTap: () {
-                        Navigator.popAndPushNamed(context, "/course_details");
-                      },);
-                    },
-                  ),
-                ),
-                const SizedBox(height: 20,),
-                const CustomRow(title: "Student's Favorite",),
-                SizedBox(
-                  height: 210,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return CourseCard(onTap: () {},);
-                    },
-                  ),
-                ),
-                const SizedBox(height: 20,),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }
